@@ -1,11 +1,13 @@
 ﻿using PolymorphismExercises;
 
+Console.WriteLine("First part of the exercise");
+
 //Exception TimeOut Case
 try
 {
-    var dbConnection = new OracleConnection(connectionString: "Some URL", timeout: TimeSpan.FromMilliseconds(2000));
-    dbConnection.Open();
-    dbConnection.Close();
+    var dbConnectionOne = new OracleConnection(connectionString: "Some URL", timeout: TimeSpan.FromMilliseconds(2000));
+    dbConnectionOne.Open();
+    dbConnectionOne.Close();
 }
 catch (TimeoutException e)
 {
@@ -15,9 +17,9 @@ catch (TimeoutException e)
 //Exception ConnectionString Case
 try
 {
-    var dbConnection = new SqlConnection(connectionString:"");
-    dbConnection.Open();
-    dbConnection.Close();
+    var dbConnectionOne = new SqlConnection(connectionString:"");
+    dbConnectionOne.Open();
+    dbConnectionOne.Close();
 }
 catch (ArgumentNullException e)
 {
@@ -25,7 +27,29 @@ catch (ArgumentNullException e)
 }
 
 //Happy cases!
-//var dbConnection = new OracleConnection(connectionString: "Some URL");
+var dbConnectionOk = new OracleConnection(connectionString: "Some URL");
 
-//dbConnection.Open();
-//dbConnection.Close();
+dbConnectionOk.Open();
+dbConnectionOk.Close();
+
+Console.WriteLine("\nSecond Part of the exercise");
+
+//Happy case!
+var dbConnectionSQL = new SqlConnection(connectionString: "some Url");
+var dbConnectionOracle = new OracleConnection(connectionString: "some Url");
+
+var dbCommand = new DbCommand(dbConnection: dbConnectionSQL, command: "SELECT * FROM STACK");
+dbCommand.Execute();
+
+//Exception Case
+try
+{
+    var dbCommandTest = new DbCommand(dbConnection: dbConnectionOracle, command: "");
+    dbCommand.Execute();
+}
+catch (ArgumentNullException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+
